@@ -13,3 +13,5 @@ matplotlib==3.8.4
 seaborn==0.13.2
 imblearn==0.0 # For imbalanced-learn, use this placeholder or specific version
 imbalanced-learn==0.12.2 # Explicit version for imblearn if 0.0 causes issues
+gunicorn
+uvicorn[standard]
