@@ -543,6 +543,8 @@ import numpy as np
 import io
 import tempfile
 from pydub import AudioSegment
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import RedirectResponse
 
 # --- Removed python_speech_features import block due to persistent issues ---
 # MDVP:APQ will be explicitly set to 0.0.
@@ -826,8 +828,8 @@ def extract_vocal_features(audio_path: str) -> Dict[str, float]:
 
 @app.get("/")
 async def read_root():
-    return {"message": "Parkinson's Prediction Chatbot Backend is running!"}
-
+    # This automatically redirects visitors from the root URL to your main page
+    return RedirectResponse(url="/chatbot.html")
 # @app.post("/predict")
 # async def predict_parkinsons(input_data: PredictionInput):
 #     if model is None or scaler is None or not feature_names:
@@ -1175,3 +1177,5 @@ async def chat_with_llm(chat_message: ChatMessage):
         except Exception as e:
             print(f"An unexpected error occurred during LLM interaction: {e}")
             raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {e}")
+# This tells FastAPI to serve all HTML, CSS, and JS files found in the frontend folder
+app.mount("/", StaticFiles(directory="frontend"), name="frontend")
